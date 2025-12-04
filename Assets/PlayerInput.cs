@@ -4,6 +4,8 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private float _speed = 1;
+    [SerializeField] private string _coinTag = "Coin";
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,5 +44,20 @@ public class PlayerInput : MonoBehaviour
         }
 
 
+
+
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        print(collision.gameObject.transform.position);
+        if (collision.gameObject.CompareTag(_coinTag)) 
+        {
+            Destroy(collision.gameObject);
+        
+        }
+
+
+    }
+
 }
