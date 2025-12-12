@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -5,6 +6,8 @@ public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private float _speed = 1;
     [SerializeField] private string _coinTag = "Coin";
+    [SerializeField] private string _powerUpTag = "PowerUp";
+    private int _score;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -51,10 +54,21 @@ public class PlayerInput : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         print(collision.gameObject.transform.position);
-        if (collision.gameObject.CompareTag(_coinTag)) 
-        {
-            Destroy(collision.gameObject);
         
+        CoinValue coinValue;
+        PowerUp speedPowerUp;
+        if (collision.gameObject.CompareTag(_coinTag) && collision.gameObject.TryGetComponent<CoinValue>(out coinValue)) 
+        {
+            _score += coinValue.GetScoreWorth();
+            Destroy(collision.gameObject);
+            print(_score);
+        }
+
+        if (collision.gameObject.CompareTag(_powerUpTag) && collision.gameObject.TryGetComponent<PowerUp>(out speedPowerUp))
+        {
+            _speed += speedPowerUp.SpeedBoost();
+            Destroy(collision.gameObject);
+            print($"Speed went up!");
         }
 
 
