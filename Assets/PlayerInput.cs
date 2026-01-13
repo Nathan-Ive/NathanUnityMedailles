@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -7,6 +8,8 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float _speed = 1;
     [SerializeField] private string _coinTag = "Coin";
     [SerializeField] private string _powerUpTag = "PowerUp";
+    [SerializeField] private TMP_Text _cointText;
+    
     private int _score;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -62,6 +65,7 @@ public class PlayerInput : MonoBehaviour
             _score += coinValue.GetScoreWorth();
             Destroy(collision.gameObject);
             print(_score);
+            _cointText.text = _score.ToString();
         }
 
         if (collision.gameObject.CompareTag(_powerUpTag) && collision.gameObject.TryGetComponent<PowerUp>(out speedPowerUp))
